@@ -1,0 +1,303 @@
+УР — удалённый репозиторий
+ЛР — локальный репозиторий
+
+=========================================  удалённый репозиторий  ===============================================
+
+one.py
+two.py
+
+шаг 5: получение последних коммитов из ЛР
+
+=================================================================================================================
+
+шаг 0: clone — операция создания ЛР, связанного с указанным УР, копирования файлов и всей истории изменений в ЛР
+    Клонирование репозитория
+
+    > cd /d E:\AcademyTop\W_python
+    > git clone https://github.com/Pavel-Grechishny/My-first-step.git 040723_test
+    > cd 040723_test
+    > git log
+
+========================  локальный репозиторий 1 - безконфликный сценарий ======================================
+
+one.py
+two.py
+
+шаг 1: появление файлов в нашей дирректории 040723_test, производим внесение изменений в файлы ЛР (только ЛР!!!)
+
+    > git status
+      On branch main (На главной ветке) main в ЛР
+      Your branch is up to date with 'origin/main' (Ваша ветка обновлена с помощью 'origin/main') main в УР
+      nothing to commit, working tree clean (ничего не нужно фиксировать, рабочее дерево чистое) - изменений НЕТ
+
+    > git remote -v (посмотреть ссылки на текущие удаленные репозитории)
+      origin  https://github.com/Pavel-Grechishny/My-first-step.git (fetch)
+      origin  https://github.com/Pavel-Grechishny/My-first-step.git (push)
+
+    ! origin - псевдо имя для ссылки на УР
+    
+    > git status (после внесения изменений в файл)
+      On branch main
+      Your branch is up to date with 'origin/main'.
+      Changes not staged for commit: (Изменения, не подготовленные для фиксации)
+        (use "git add <file>..." to update what will be committed)
+        (use "git restore <file>..." to discard changes in working directory)
+              modified:   one.py
+      no changes added to commit (use "git add" and/or "git commit -a")
+
+    ! commit - единица изменений с точки зрения системы весификации (check point изменений)
+        
+шаг 2: add — добавление одного или нескольких изменений в запись о произведённых изменениях ()
+    
+    > git add one.py (через пробел можно указать несколько файлов) 
+
+    > git status
+      On branch main
+      Your branch is up to date with 'origin/main'.
+      Changes to be committed: (Изменения, которые необходимо зафиксировать - будут вписаны в ближайший commit)
+        (use "git restore --staged <file>..." to unstage)
+              modified:   one.py
+ 
+шаг 3: commit — создание записи о произведённых изменениях
+
+    > git commit -m "Сообщение: добавлена функция ..." (сообщение о произведенных изменениях)
+      [main 8019f55] Сообщение: добавлена функция ...
+      1 file changed, 3 insertions(+)
+  
+    > git log
+      commit 8019f5522327f7b6ea28d27786c85b61c7f0a7ba (HEAD -> main) - commit относится в ветке main ЛР
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 13:47:46 2023 +0300
+          Сообщение: добавлена функция ...
+      commit 329aff17478d4965c8f1c58a6783c86c4256ace2 (origin/main, origin/HEAD) - commit относится в ветке main УР
+      Author: Pavel-Grechishny <138432967+Pavel-Grechishny@users.noreply.github.com>
+      Date:   Tue Jul 4 10:47:01 2023 +0300
+          Create two.py
+      commit c6938226df8cae8632e70b90b6ba6907123d2ba2
+      Author: Pavel-Grechishny <138432967+Pavel-Grechishny@users.noreply.github.com>
+      Date:   Tue Jul 4 10:46:13 2023 +0300
+          Create one.py
+
+    > git status
+      On branch main
+      Your branch is ahead of 'origin/main' by 1 commit. (Наш ЛР впереди на 1 коммит)
+        (use "git push" to publish your local commits)
+      nothing to commit, working tree clean
+            
+шаг 4: push — отправка последних зарегистрированных в ЛР коммитов (записей о произведённых изменениях) в УР
+
+    > git push origin main
+      Enumerating objects: 5, done.
+      Counting objects: 100% (5/5), done.
+      Delta compression using up to 4 threads
+      Compressing objects: 100% (3/3), done.
+      Writing objects: 100% (3/3), 369 bytes | 123.00 KiB/s, done.
+      Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+      To https://github.com/Pavel-Grechishny/My-first-step.git
+         8019f55..1d34fd8  main -> main
+
+===========================  локальный репозиторий 2 - конфликтный сценарий =====================================
+
+one.py
+two.py
+
+    > cd ..
+
+    > git clone https://github.com/Pavel-Grechishny/My-first-step.git 040723_test_2
+      Cloning into '040723_test_2'...
+      remote: Enumerating objects: 12, done.
+      remote: Counting objects: 100% (12/12), done.
+      remote: Compressing objects: 100% (9/9), done.
+      remote: Total 12 (delta 0), reused 6 (delta 0), pack-reused 0
+      Receiving objects: 100% (12/12), done.
+
+
+============================================  работаем в двух ЛР ================================================
+
+======================  возникновение конфликта (моделируем синхронную работу) ==================================
+
+шаг 7: внесение изменений в 040723_test_2
+
+шаг 8: внесение изменений в 040723_test
+            
+шаг 10: add — добавление одного или нескольких изменений в запись 040723_test_2
+    
+    > git add one.py
+
+    > git status
+      On branch main
+      Your branch is up to date with 'origin/main'.
+      Changes to be committed:
+        (use "git restore --staged <file>..." to unstage)
+              modified:   one.py
+
+    > git commit -m "Сообщение: добавлена функция 2 ..."
+      [main 50a89f3] Сообщение: добавлена функция 2 ...
+      1 file changed, 4 insertions(+), 1 deletion(-)
+
+    > git log
+      commit 50a89f3cb879d0fffedbcd3992192c6240faa023 (HEAD -> main)
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 20:02:32 2023 +0300
+          Сообщение: добавлена функция 2 ...
+      commit 1d34fd8228d3948b877229e7ceb032394bc09464 (origin/main, origin/HEAD)
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 14:31:07 2023 +0300
+          Сообщение: добавлена функция ...
+      commit 8019f5522327f7b6ea28d27786c85b61c7f0a7ba
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 13:47:46 2023 +0300
+          Сообщение: добавлена функция ...
+      commit 329aff17478d4965c8f1c58a6783c86c4256ace2
+      Author: Pavel-Grechishny <138432967+Pavel-Grechishny@users.noreply.github.com>
+      Date:   Tue Jul 4 10:47:01 2023 +0300
+          Create two.py
+      commit c6938226df8cae8632e70b90b6ba6907123d2ba2
+      Author: Pavel-Grechishny <138432967+Pavel-Grechishny@users.noreply.github.com>
+      Date:   Tue Jul 4 10:46:13 2023 +0300
+          Create one.py
+
+    ! Изменения в УР пока не вносим
+
+шаг 11: add — добавление одного или нескольких изменений в запись 040723_test
+
+    > cd ..
+    > cd 040723_test
+    > git add one.py
+
+    > git status
+      On branch main
+      Your branch is up to date with 'origin/main'.
+      Changes to be committed:
+        (use "git restore --staged <file>..." to unstage)
+              modified:   one.py
+
+    > git commit -m "Сообщение: добавлена функция 2 ..."
+      [main fa2aa97] Сообщение: добавлена функция 2 ...
+      1 file changed, 7 insertions(+), 1 deletion(-)
+
+    > git log
+      commit fa2aa973f54bd29b92b99f9ee6e0c22ceb05da4e (HEAD -> main)
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 19:51:56 2023 +0300
+          Сообщение: добавлена функция 2 ...
+      commit 1d34fd8228d3948b877229e7ceb032394bc09464 (origin/main, origin/HEAD)
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 14:31:07 2023 +0300
+          Сообщение: добавлена функция ...
+      commit 8019f5522327f7b6ea28d27786c85b61c7f0a7ba
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 13:47:46 2023 +0300
+          Сообщение: добавлена функция ...
+      commit 329aff17478d4965c8f1c58a6783c86c4256ace2
+      Author: Pavel-Grechishny <138432967+Pavel-Grechishny@users.noreply.github.com>
+      Date:   Tue Jul 4 10:47:01 2023 +0300
+          Create two.py
+      commit c6938226df8cae8632e70b90b6ba6907123d2ba2
+      Author: Pavel-Grechishny <138432967+Pavel-Grechishny@users.noreply.github.com>
+      Date:   Tue Jul 4 10:46:13 2023 +0300
+          Create one.py
+    
+    > git push origin main
+      Enumerating objects: 5, done.
+      Counting objects: 100% (5/5), done.
+      Delta compression using up to 4 threads
+      Compressing objects: 100% (3/3), done.
+      Writing objects: 100% (3/3), 383 bytes | 127.00 KiB/s, done.
+      Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+      To https://github.com/Pavel-Grechishny/My-first-step.git
+        1d34fd8..fa2aa97  main -> main
+            
+шаг 11: push отклонён, т.к. в УР есть более новые коммиты
+
+    > cd ..
+    > cd 040723_test_2
+    
+    > git push origin main
+    ! Error
+      To https://github.com/Pavel-Grechishny/My-first-step.git
+       ! [rejected]        main -> main (fetch first)
+      error: failed to push some refs to 'https://github.com/Pavel-Grechishny/My-first-step.git'
+      hint: Updates were rejected because the remote contains work that you do
+      hint: not have locally. This is usually caused by another repository pushing
+      hint: to the same ref. You may want to first integrate the remote changes
+      hint: (e.g., 'git pull ...') before pushing again.
+      hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+    > git push --help  
+
+====================================  решение конфликтной ситуации ==============================================
+      
+шаг 12: pull — получение обновлений из УР с выполнением автоматического слияния (auto-merge)
+
+    ! для 040723_test_2
+    > git pull origin main
+      remote: Enumerating objects: 5, done.
+      remote: Counting objects: 100% (5/5), done.
+      remote: Compressing objects: 100% (3/3), done.
+      remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0
+      Unpacking objects: 100% (3/3), 363 bytes | 3.00 KiB/s, done.
+      From https://github.com/Pavel-Grechishny/My-first-step
+       * branch            main       -> FETCH_HEAD
+         1d34fd8..fa2aa97  main       -> origin/main
+      Auto-merging one.py
+      CONFLICT (content): Merge conflict in one.py
+      Automatic merge failed; fix conflicts and then commit the result.
+    
+    ! Итог - получили обновление
+    ! CONFLICT (content): Merge conflict in one.py - автослияние не выполняется
+    ! Конфликт не разрешен автоматически, исправьте вручную
+
+    ! Принимаем изменения в ручную
+                    
+шаг 13: push
+
+    > git add one.py
+
+    > git commit -m "исправлено в ручную"
+      [main 943d4c9] исправлено в ручную
+
+    > git push origin main
+      Enumerating objects: 10, done.
+      Counting objects: 100% (10/10), done.
+      Delta compression using up to 4 threads
+      Compressing objects: 100% (6/6), done.
+      Writing objects: 100% (6/6), 672 bytes | 224.00 KiB/s, done.
+      Total 6 (delta 2), reused 0 (delta 0), pack-reused 0
+      remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+      To https://github.com/Pavel-Grechishny/My-first-step.git
+         fa2aa97..943d4c9  main -> main
+
+    > git log
+      commit 943d4c9c3aa3638637338fb0223001ddb4bed974 (HEAD -> main, origin/main, origin/HEAD)
+      Merge: 50a89f3 fa2aa97
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 21:10:47 2023 +0300
+          исправлено в ручную
+      commit 50a89f3cb879d0fffedbcd3992192c6240faa023
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 20:02:32 2023 +0300
+          Сообщение: добавлена функция 2 ...
+      commit fa2aa973f54bd29b92b99f9ee6e0c22ceb05da4e
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 19:51:56 2023 +0300
+          Сообщение: добавлена функция 2 ...
+      commit 1d34fd8228d3948b877229e7ceb032394bc09464
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 14:31:07 2023 +0300
+          Сообщение: добавлена функция ...
+      commit 8019f5522327f7b6ea28d27786c85b61c7f0a7ba
+      Author: Pavel-Grechishny <grechishny.p@mail.ru>
+      Date:   Tue Jul 4 13:47:46 2023 +0300
+          Сообщение: добавлена функция ...
+      commit 329aff17478d4965c8f1c58a6783c86c4256ace2
+      Author: Pavel-Grechishny <138432967+Pavel-Grechishny@users.noreply.github.com>
+      Date:   Tue Jul 4 10:47:01 2023 +0300
+          Create two.py
+      commit c6938226df8cae8632e70b90b6ba6907123d2ba2
+      Author: Pavel-Grechishny <138432967+Pavel-Grechishny@users.noreply.github.com>
+      Date:   Tue Jul 4 10:46:13 2023 +0300
+          Create one.py
+      (END)
+
+
