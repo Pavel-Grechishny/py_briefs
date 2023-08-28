@@ -196,4 +196,32 @@
                 
 ================================================================================================
 
-01_57 ...
+01_57 - @decotator синтаксический сахар.
+
+    @decorator
+    def adder(num1: int, num2: int) -> int:
+        return num1 + num2
+        
+    #adder = decorator(adder)
+    
+================================================================================================
+
+02_11 - декоратор измерения времени выполнения любой функции (decorator2.py)
+
+    from time import perf_counter_ns as pc_ns
+    
+    def elapse(func_obj: 'function') -> 'function':
+        """docsrting"""
+        
+        def wrapper(*args, **kwargs):
+            start = pc_ns()
+            res = func_obj(*args, **kwargs)
+            end = pc_ns()
+            print(f'elapsed time for {func_obj.__name__}(): {end-start} ns')
+            return res
+            
+        return wrapper
+        
+================================================================================================
+
+02_27 ... парамертизуемые декораторы
