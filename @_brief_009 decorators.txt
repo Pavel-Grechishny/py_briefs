@@ -225,3 +225,81 @@
 ================================================================================================
 
 02_27 ... парамертизуемые декораторы
+
+    def decorator_paramtrizer(parameter) -> 'function':
+        """Функция параметризации декораторов"""
+        
+        def decorator(func_obj: 'function') -> 'function':
+            """Функция-декоратор"""
+            
+            def wrapper(*args, **kwargs):
+                ...
+                print(parameter)
+                res = func_obj(*args, **kwargs)
+                ...
+                return res
+            
+            return wrapper
+            
+        return decorator
+        
+    ===
+    
+    def test_func():
+        print('вызов тестовой функции')
+        
+        
+    test_func = decorator_paramtrizer('тестовый параметр')(test_func)
+    
+  # >>> test_func()
+  # тестовый параметр
+  # вызов тестовой функции
+    
+    ===
+    
+    @decorator_paramtrizer('второй тестовый параметр')
+    def test_func2():
+        print('вызов второй тестовой функции')
+ 
+   # >>> test_func2()
+  # второй тестовый параметр
+  # вызов виторой тестовой функции
+
+
+    
+    Пример использования:
+    
+    Параметризуемый декоратор, выполлняет действия по перехвату исключений
+    
+    def excepter(exception_cls):
+        """"""
+        
+        def decorator(func_obj):
+        """"""
+        
+            def wrapper(*args, **kwargs):
+                """"""
+                try:
+                    res = func_obj(*args, **kwargs)
+                except exception_cls:
+                    print('перехват нужного исключения')
+                else:
+                    return res
+                    
+            return wrapper
+            
+        return decorator
+                    
+    
+    @exepter(ZeroDivisionError)
+    def divider(num1, num2):
+        """"""
+        return num1 / num2
+                    
+    ===
+    
+  # >>> divider(2, 4)
+  # 0.5
+    
+  # >>> divider(2, 0)
+  # перехват нужного исключения
