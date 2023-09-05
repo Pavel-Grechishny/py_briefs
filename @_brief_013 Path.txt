@@ -92,7 +92,162 @@
     file_path.drive - диск
     file_path.root - '\\' - не понятно что
     file_path.anchor - корень в любой OC
+    
+    Path.cwd() - текущий рабочий каталог
+    Path.home() - домашний каталог
+    
+    ... Документация
+
+================================================================================
+    
+01_35 - Методы iterdir(), glob('*.txt'), rglob('*.txt')
+
+    iterdir() - метод возвращающий содержимое каталога
+  ! iterdir() - применяется к каталогу, к файлу нет
+    glob(*.txt) - возвращает файла из каталога
+    rglob(*.txt) - возвращает файлы из каталога и подкаталогов
+
+  # Конструируем путь
+    from pathlib import Path
+    from sys import path
+    
+    scripts_dir = Path(path[0]).parent
+  
+  # Перебор всех элементов в каталоге 
+    for path_ in scripts_dir.iterdir():
+        if path_.is_dir() - только каталоги
+            print(path_)
+            
+  # Перебор всех элементов в каталоге 
+    for path_ in scripts_dir.glob('*.txt'): - только файлы .txt
+        print(path_)
+    
+=================================================================================
+    
+01_43 - Подстановка символов (шаблоны)
+
+    * - любое количество любых символов
+    ? - ровно один символ
+    [seq] - любые сиволы из группы
+    [!seq] - кроме символов из группы
+   
+  # Шаблон для файлов с цифрами
+    file_name = compire(r'\w*\d{1,2}\.py')
+    
+    for path_ in (scripts_dir / 'base').iterdir():
+        if file_name.fullmatch(path_.name):
+            print(path_.name)
+            
+            
+==================================================================================
+
+01_50 - РАБОТА С ФАЙЛАМИ
+
+==================================================================================
+
+    from pathlib import Path
+    from sys import path
+    
+    datafile_path = Path(path[0]) / 'data'
+    
+  # Чтение текстового файла
+    text = datafile_path.read_text(encoding='utf-8')
+    
+  # Запись в файл (перезапись)
+    text = '\n'.join(line.strip(digits+whitespace) for line in text.strip().split('\n'))
+    datafile_path.write_text(text, encoding='utf-8')
+    
+====================================================================================
+
+02_09 - Режимы работы с файлами - open() (scripts/file2.py)
+
+    from pathlib import Path
+    from sys import path
+    
+    datafile_path = Path(path[0]) / 'data'
+    
+    filein = open(datafile_path, encoding='utf-8')
+    filein - файлоподобный объект
+    
+  
+  # 'r' - открывает файл на чтение
+  # 'w' - на запись(перезапись)
+  # 'x' - открыть только для создания файла
+  # 'a' - на дозапись
+  # 'b' - работа с бинарным файлом
+  # 't' - работа с текстовым файлом
+  # '+' - используется для комбинирования
+  
+=======================================================================================
+
+02_20 - методы объектов потока
+  
+    from pathlib import Path
+    from sys import path
+    
+    datafile_path = Path(path[0]) / 'data'
+    
+    filein = open(datafile_path, encoding='utf-8')
+    
+  ! filein - генератор итерируется один раз
+    filein.read() - чтение всего
+    filein.readline() - чтение строки
+    filein.readlines() - список со строками файла
+    
+=======================================================================================
+
+02_28 - закрытие потока - close()
+
+    filein.close()
+  ! высвобождает ресурсы
+  
+=======================================================================================
+
+02_34 
+
+    filein = open(datafile_path, encoding='utf-8')
+    
+    lines = []
+    for line in filein:
+        lines.append(line.strip())
         
+    filein.close()
     
     
+=======================================================================================
+
+02_36 - менеджер контекста - конструкция with
+
+    from pathlib import Path
+    from sys import path
     
+    datafile_path = Path(path[0]) / 'data'
+    
+    whis open(datafile_path, encoding='utf-8') as filein:
+        text = filein.read()
+        
+    print(text)
+    
+=======================================================================================
+
+02_41 - дозапись
+
+    from pathlib import Path
+    from sys import path
+    
+    datafile_path = Path(path[0]) / 'data'
+    
+    whis open(datafile_path, 'a', encoding='utf-8') as fileout:
+        fileout.write(text)
+        
+=======================================================================================
+
+02_43 - запись с помощью функции print()
+
+    from pathlib import Path
+    from sys import path
+    
+    datafile_path = Path(path[0]) / 'data'
+    
+    whis open(datafile_path, 'a', encoding='utf-8') as fileout:
+        print(text, file=fileout)
