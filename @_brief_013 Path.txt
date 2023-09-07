@@ -223,7 +223,7 @@
     
     datafile_path = Path(path[0]) / 'data'
     
-    whis open(datafile_path, encoding='utf-8') as filein:
+    with open(datafile_path, encoding='utf-8') as filein:
         text = filein.read()
         
     print(text)
@@ -237,7 +237,7 @@
     
     datafile_path = Path(path[0]) / 'data'
     
-    whis open(datafile_path, 'a', encoding='utf-8') as fileout:
+    with open(datafile_path, 'a', encoding='utf-8') as fileout:
         fileout.write(text)
         
 =======================================================================================
@@ -249,5 +249,5 @@
     
     datafile_path = Path(path[0]) / 'data'
     
-    whis open(datafile_path, 'a', encoding='utf-8') as fileout:
+    with open(datafile_path, 'a', encoding='utf-8') as fileout:
         print(text, file=fileout)
