@@ -1,0 +1,131 @@
+:================================================================================================:
+:                                                                                                :
+:   2023.09.06 - СТАНДАРТНАЯ БИБЛИОТЕКА PYTHON - ОБЗОР                                           :
+:                                                                                                :
+:------------------------------------------------------------------------------------------------:
+:                                                                                                :
+:   00:29 - decimal - тип данных для вещественных чисел с фиксированной точкой                   :
+:                                                                                                :
+:           from decimal import Decimal as deс                                                   :
+:           Decimal('0.1000000000000000055511151231257827021181583404541015625')                 :
+:           Decimal('0.299999999999999988897769753748434595763683319091796875')                  :
+:           >>> 0.1 + 0.1 + 0.1 == 0.3                                                           :
+:           False                                                                                :
+:           >>> dec(0.1) + dec(0.1) + dec(0.1) == dec(0.3)                                       :
+:           True                                                                                 :
+:                                                                                                :
+:           Передавать в виде строк -> dec(str(1.5))                                             :
+:           Поддерживаются все математические операции                                           :
+:                                                                                                :
+:------------------------------------------------------------------------------------------------:
+:                                                                                                :
+:   00:47 - fractions - тип данных для рациональных чисел (рациональные дроби)                   :
+:           используется в пропорциональных расчетах или сокращения дробей                       :
+:                                                                                                :
+:------------------------------------------------------------------------------------------------:
+:                                                                                                :
+:   00:52 - datetime - для работы со временем (модкль содержит 5 типов данных)                   :
+:                                                                                                :
+:           from datetime import datetime as dt, date, time, timedelta as td                     :
+:                                                                                                :
+:           two_days_ago = dt(2023, 9, 5, 3, 42)   ->   2023-09-05 03:42:00                      :
+:           now = dt.now()                         ->   текущее время (сейчас)                   :
+:           now - two_days_ago                     ->                                            :
+:               ->   datetime.timedelta(days=1, seconds=64243, microseconds=952610)              :
+:                                                                                                :
+:           * 0 <= microseconds < 1_000_000                                                      :
+:           * 0 <= seconds < 3600 * 24                                                           :
+:           * -999_999_999 <= days <= 999_999_999                                                :
+:                                                                                                :
+:           timestamp - количество секунд с начала эпохи 01.01.1970                              :
+:           strptime - формат времени (даты) - только для datetime объекта                       :
+:           long_ago = dt.strptime('4:27 01.05.2000', '%H:%M:%S')                                :
+:           long_ago.date() -> datetime.datetime(2000, 5, 1)                                     :
+:           long_ago.time() -> datetime.datetime(4, 27)                                          :
+:           long_ago.isoweekday() -> день недели                                                 :
+:           long_ago.weekday() -> день недели                                                    :
+:                                                                                                :
+:------------------------------------------------------------------------------------------------:
+:                                                                                                :
+:   01:30 - collections - namedtuple(), deque, ChainMap, Counter (САМОСТОЯТЕЛЬНО ЧИТАТЬ)         :
+:                                                                                                :
+:------------------------------------------------------------------------------------------------:
+:                                                                                                :
+:   namedtuple - именованый кортеж                                                               :
+:                                                                                                :
+:           импорт:                                                                              :
+:           from collections import namedtuple                                                   :
+:                                                                                                :
+:           синтаксис:                                                                           :
+:           collections.namedtuple(typename, field_names, *,                                     :
+:                                  rename=False, defaults=None, module=None)                     :
+:                                                                                                :
+:           создание:                                                                            :
+:           Marks = namedtuple('Marks', 'Physics Chemistry Math English')                        :
+:           marks = Marks(90, 85, 95, 100)                                                       :
+:           print(marks)                                                                         :
+:           type(marks)                                                                          :
+:                                                                                                :
+:           Marks(Physics=90, Chemistry=85, Math=95, English=100)                                :
+:           <class '__main__.Marks'>                                                             :
+:                                                                                                :
+:------------------------------------------------------------------------------------------------:
+:                                                                                                :
+:   deque - очередь                                                                              :
+:                                                                                                :
+:           импорт:                                                                              :
+:           from collections import deque                                                        :
+:                                                                                                :
+:           синтаксис:                                                                           :
+:           fruit_list = deque(['Apple', 'Mango', 'Peaches', 'Banana', 'Papaya'])                :
+:                                                                                                :
+:           print(fruit_list)                                                                    :
+:           deque(['Apple', 'Mango', 'Peaches', 'Banana', 'Papaya'])                             :
+:                                                                                                :
+:           методы:                                                                              :
+:           appendleft()                                                                         :
+:           popleft()                                                                            :
+:           extendleft(iterable)                                                                 :
+:                                                                                                :
+:------------------------------------------------------------------------------------------------:
+:                                                                                                :
+:   ChainMap - контейнер цепочка                                                                 :
+:                                                                                                :
+:           импорт:                                                                              :
+:           from collections import ChainMap                                                     :
+:                                                                                                :
+:           синтаксис:                                                                           :
+:           ChainMap(dict, dict)                                                                 :
+:                                                                                                :
+:           x = {'Age': 10, 'Name': 'Vin'}                                                       :
+:           y = {'Age': 31, 'Name': 'John'}                                                      :
+:           chain_map = ChainMap(x, y)                                                           :
+:           print(chain_map)                                                                     :
+:                                                                                                :
+:           ChainMap({'Age': 10, 'Name': 'Vin'}, {'Age': 31, 'Name': 'John'})                    :
+:                                                                                                :
+:------------------------------------------------------------------------------------------------:
+:                                                                                                :
+:   Counter - счетчик                                                                            :
+:                                                                                                :
+:           импорт:                                                                              :
+:           from collections import Counter                                                      :
+:                                                                                                :
+:           синтаксис:                                                                           :
+:           counter = Counter('abc')                                                             :
+:           print(counter)                                                                       :
+:           Counter({'a': 1, 'b': 1, 'c': 1})                                                    :
+:                                                                                                :
+:           words_list = ['Cat', 'Dog', 'Horse', 'Dog']                                          :
+:           counter = Counter(words_list)                                                        :
+:           print(counter)                                                                       :
+:           Counter({'Dog': 2, 'Cat': 1, 'Horse': 1})                                            :
+:                                                                                                :
+:           word_count_dict = {'Dog': 2, 'Cat': 1, 'Horse': 1}                                   :
+:           counter = Counter(word_count_dict)                                                   :
+:           print(counter)                                                                       :
+:           Counter({'Dog': 2, 'Cat': 1, 'Horse': 1})                                            :
+:                                                                                                :
+:------------------------------------------------------------------------------------------------:
+:                                                                                                :
+:   01:33 ...
