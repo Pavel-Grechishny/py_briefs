@@ -1,0 +1,65 @@
+======================================================================
+
+00:00 - csv - табличные значения в текстовом файле
+
+    модуль csv - import csv
+    
+    диалекты (excel, unix)
+    
+    ---------
+    чтение stdlib9_1.py - читаем все как str
+    
+        from csv import reader
+        from pathlib import Path
+        from sys import path
+        
+        data_path = Path(path[0]) / 'stdlib9_1.csv'
+        
+        with open(data_path, newline='', encoding='utf-8') as filein:
+            data = reader(filein)
+            
+        >>> python -i stdlib9.py
+        >>>
+        >>> data
+        <_csv.reader object at 0x0000000.....>
+    
+        with open(data_path, newline='', encoding='utf-8') as filein:
+            data = list(reader(filein))
+            
+        >>> python -i stdlib9.py
+        >>>
+        >>> data -> получим список списков строк
+    
+    ---------
+    чтение stdlib9_2.py - читаем как str и float
+    
+  ! Пример распаковки данных с table_print
+  ! csv - формат позволяет использовать данные как str '' заковыченные
+        и float - незаковыченные
+          
+        data_path = (Path(path[0])) / 'stdlib9_2.csv'
+        
+        with open(data_path, newline='', encoding='utf-8') as filein:
+            data = list(reader(filein, quotechar="'", quoting=QUOTE_NONNUMERIC))
+            
+======================================================================
+
+00:21 - json - файлы содержащие словароподобные объекты
+
+    stdlib10.py
+    -----------
+    
+    from json import loads, dumps, dump (load - читает, dump - записывает)
+    from pathlib import Path
+    from sys import path
+    
+    data = Path(path[0]) / 'stdlib10.json'
+    data = data.read_text(encoding='utf-8')
+    data = loads(data) -> вернули список словарей
+    
+    dumps(data) -> вернет объект без лишних символов пространства
+    
+    data_path = Path(path[0]) / 'stdlib10_edited.json'
+    
+    with open(data_path, 'w', encoding='utf-8') as fileout:
+        dump(new_data, fileout, ensure_ascii=False, indent=2) -> новый файл
