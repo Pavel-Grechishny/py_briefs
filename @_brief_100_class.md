@@ -238,8 +238,47 @@
         instance.hello()
         Hello!
     -->
-      
+
+# Файл class3.py
+    
 # 02_30 - Объединение 2-х (добавление атрибутов экземпляру и вызовы методов)   
     
+    __init__ - специальный метод (конструктор), 
+    который вызывается в момент создания объекта класса или экземпляра.
     
+    __init__(
+            первый позиционный параметр, ссылка на объект экземпляра, 
+            атрибут экземпляра 1,
+            атрибут экземпляра 2,
+            ...
+        )
+        
+    <!--class Person:
+            def __init__(self, last_name: str, first_name: str):
+                self.family = last_name
+                self.name = first_name
     
+        ivan = Person('Fekistov', 'Inan')
+        anna = Person('Dynaevskaia', 'Anna')
+    
+        ivan
+        <__main__.Person object at 0x00000270B56CDA50>
+        
+        anna
+        <__main__.Person object at 0x00000270B56CDB50>
+    
+        ivan.__dict__
+        {'family': 'Fekistov', 'name': 'Inan'}
+        
+        anna.__dict__
+        {'family': 'Dynaevskaia', 'name': 'Anna'}
+    
+        Person.__dict__
+        mappingproxy({
+            '__module__': '__main__',
+            '__init__': <function Person.__init__ at 0x00000270B56DAA20>,
+            '__dict__': <attribute '__dict__' of 'Person' objects>,
+            '__weakref__': <attribute '__weakref__' of 'Person' objects>,
+            '__doc__': None
+        })
+    -->
