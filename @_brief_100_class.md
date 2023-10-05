@@ -156,6 +156,90 @@
         instance_2.attr1
         'новое значение атрибута класса'
     -->
+
+# Файл class2.py 
     
 # 02_13 - Конструкторы
 
+    Конструктор класса
+    <!--class Test:
+            def hello():
+                print('Привет!')
+
+        Test.__dict__
+        mappingproxy({
+            '__module__': '__main__',
+            'hello': <function Test.hello at 0x00000211B26DAA20>,
+            '__dict__': <attribute '__dict__' of 'Test' objects>,
+            '__weakref__': <attribute '__weakref__' of 'Test' objects>,
+            '__doc__': None
+        })
+         
+        Test.hello()
+        Привет!
+        
+        instance = Test()
+        instance.__dict__
+        {}
+        
+        instance.hello
+        <bound method Test.hello of <__main__.Test object at 0x00000211B26CD610>>
+        
+        instance.hello()
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        TypeError: Test.hello() takes 0 positional arguments but 1 was given
+    -->
+    
+    Метод в общем случае - это облочка для функции, с помощью которой осуществляется подмена вызова.
+    При вызове метода от экземпляра, происходит подмена вызова.
+        ```
+        instance.hello() --> Test.hello(instanse)
+        instance.hello() --> instanse.__class__.hello(instanse)
+        
+        ```
+        
+# При вызове метода класса от экземпляра, экземпляр класса передается в качестве аргумента этому методу
+    <!--class Test:
+            def hello():
+                print('Hello!')
+            def print_arg(arg=None):
+                print(arg)
+                
+        instance = Test()
+        
+        Test.print_arg
+        <function Test.print_arg at 0x000001BDEF44AAC0>        
+        
+        Test.print_arg()
+        None
+        
+        instance.print_arg
+        <bound method Test.print_arg of <__main__.Test object at 0x000001BDEF43DB90>>
+        
+        instance.print_arg()
+        <__main__.Test object at 0x000001BDEF43DB90>
+        
+        instance
+        <__main__.Test object at 0x000001BDEF43DB90>
+    -->
+    
+    В случае если в классе есть методов без параметров, то его нельзя вызвать от экземляра.
+    Выход: использовать параметр заглушку: 
+    ```
+    def hello(): --> def hello(dummy)
+    ```
+    не желательный способ:
+    <!--class Test:
+        def hello(dummy):
+            print('Hello!')
+
+        instance = Test()
+        instance.hello()
+        Hello!
+    -->
+      
+# 02_30 - Объединение 2-х (добавление атрибутов экземпляру и вызовы методов)   
+    
+    
+    
