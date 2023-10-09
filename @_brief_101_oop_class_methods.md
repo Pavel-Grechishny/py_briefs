@@ -185,4 +185,110 @@
         True
     -->
     
-# 01_15 ...
+# 01_34 Класс Cat - файл methods3.py
+
+    Класс Кошка
+    Пременные могут называться одинаково, но при это быть в разных пространствах имен
+    name - объекта класса : self.name - экземпляра класса
+    
+    <!--from random import choice, randrange as rr
+        from typing import Self
+    
+        class Cat:
+            names = ('Беляш','Черныш','Мурка','Барсик')
+            colors = ('белый', 'черный', 'рыжий', 'полосатый')
+            
+            def __init__(self, name: str = None, color: str = None):
+                if not name:
+                    name = choice(self.names)
+                self.name = name
+                if not color:
+                    color = choice(self.colors)
+                self.color = color
+            
+            @staticmethod
+            def meow() -> str:
+                return 'мяу'
+            
+            def hungry(self) -> str:
+                return '-'.join(self.meow() for _ in range(2, rr(3, 7)))
+            
+            @classmethod
+            def reproduce(cls) -> list[Self]:
+                return [cls() for _ in range(2, rr(3, 7))]
+    
+        yara = Cat('Яра', 'серо-полосатая')
+        yara.meow()
+        'мяу'
+        
+        yara.hungry()
+        'мяу-мяу-мяу-мяу'
+        yara.hungry()
+        'мяу-мяу-мяу-мяу'
+        yara.hungry()
+        'мяу-мяу-мяу'
+        yara.hungry()
+        'мяу-мяу'
+        
+        kittens = yara.reproduce()    
+        for kitty in kittens:
+            print(f'{kitty.name}, {kitty.color}')
+    
+        Мурка, полосатый
+        Барсик, белый
+    -->
+    
+    Классовый метод может вызываться как от объекта класса, явно ничего не передавая,
+    так и от экземпляра класса, явно ничего не передавая,
+    при этом осуществляется подмена вызова с передачей в объект функции ссылки
+    на объект класса
+    <!--for kitty in Cat.reproduce():
+            print(f'{kitty.name}, {kitty.color}')
+ 
+        Черныш, белый
+        Барсик, белый
+        Барсик, рыжий
+        Мурка, черный
+    -->
+    
+# Машиночитаемое строковое представление - __repr__()
+
+    По умолчанию
+    <!--yara
+        <__main__.Cat object at 0x000002065C53EB10>
+    -->
+    
+    __repr__() - всегда должен возвращать строку
+    не аннотируетя
+    <!--
+        def __repr__(self):
+            return f'{self.name}: {self.color}'
+            
+        yara
+        <Яра: серо-полосатая>  
+
+        yara.__repr__()
+        '<Яра: серо-полосатая>'
+    -->
+    
+# Человекочитаемое строковое представление - __str__()
+    
+    <!--
+        def __str__(self):
+            return self.name
+            
+        print(yara)
+        Яра
+
+        yara.__str__()
+        'Яра'
+    -->
+    
+# Аннотации и документация
+
+    self, cls - не аннотируются, остальные параметры - аннотируются
+    специальные методы - не аннотируются, собственные методы - аннотируются
+    методы (как и функции) должны иметь строку документации
+    специальные методы - не документируются, собственные методы - документируются
+    
+# Файл - TextProcessor
