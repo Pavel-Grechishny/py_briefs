@@ -120,7 +120,7 @@
 
     Для объявления классового метода используется встроенные декораторы
         @classmethod
-    и в таком случае в первый позиционный оргумент будет передан не объект экземпляра (self)
+    и в таком случае в первый позиционный аргумент будет передан не объект экземпляра (self)
         <!--def append(self, journal_entry: str, journal_path: str | Path = None) -> Path:-->
     а объект класса (cls)
         <!--def append(cls, journal_entry: str, journal_path: str | Path = None) -> Path:-->
