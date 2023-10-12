@@ -212,8 +212,7 @@
     for attr_name, attr_value in user.__dict__.items():
         if attr_name.startswith(f'_{user.__class__.__name__}'):
             setattr(user, attr_name, 'новое значение')
-            print(f'{attr_name}: {getattr(user, attr_name)!r}')
-            
+            print(f'{attr_name}: {getattr(user, attr_name)!r}') 
     #_User__password: 'новое значение'
 ```
     
@@ -226,6 +225,7 @@
         def __init__(self, side: float):
             self.__side = side
             self.__area = side**2
+            
         def side(self) -> float:
             return self.__side
     
@@ -254,59 +254,55 @@
 Декоратор @protected работает таким образом, что при обращении к декорируемому методу
 как к атрибуту, метод вызывается и возвращает значение, 
 которое должен вернуть вызванный метод без декоратора
-    <!--     
-        ... # Без использования декоратора
-        >>> sq.side -> <bound method Square.side of <__main__.Square object at 0x00000238FADF4350>>
-        >>> sq.side() -> 10
+```python
+    # Без использования декоратора
+    sq.side   # <bound method Square.side of <__main__.Square object at 0x00000238FADF4350>>
+    sq.side() # 10
+
+    # с использованием декоратора
+    # @property
+    sq.side # 10 
+```
+>В итоге получаем возможность работь с методом, как с атрибутом!
+>За счет @property получаем контролируемый доступ управления атрибутом!
+
+Для задания сеттера необходимо написать ОДНОИМЕННЫЙ метод с ОДНИМ аргументом
+```python
+    @property
+    def side(self) -> float:
         ...
-        ... # @property
-        >>> sq.side -> 10 
-    --> 
     
-    ``` !В итоге получаем возможность работь с методом, как с атрибутом!
-        !За счет @property получаем контролируемый доступ управления атрибутом!
-    ```
+    @side.setter
+    def side(self, new_side: float) -> None:
+        ...
+```
     
-    Для задания сеттера необходимо написать ОДНОИМЕННЫЙ метод с ОДНИМ аргументом
-    <!--
-        ...
-        ... @property
-        ... def side(self) -> float:
-        ...     ...
-        ...
-        ... @side.setter
-        ... def side(self, new_side: float) -> None:
-        ...     ...
-        ...
-    -->
+>Пример
+```python
+    class Square:
+        def __init__(self, side: float):
+            self.__side = side
+            self.__area = side**2
+
+        #геттер
+        @property
+        def side(self) -> float:
+            return self.__side
+
+        # сеттер
+        @side.setter
+        def side(self, new_side: float) -> None:
+            self.__side = new_side
+            self.__area = new_side**2
+            
+    sq = Square(4.44)
+    sq.side # 4.44 -> геттер - получаем атрибут __side при помощи @property def side()
+    sq.side = 6.02  # сеттор - устанавливаем    __side при помощи @side.setter def side()
+    sq.side # 6.02 -> геттер - получаем атрибут __side при помощи @property def side()
+```
+**Объявить сеттер @side.setter без геттара @property НЕЛЬЗЯ!**
     
-    Пример
-    <!--
-        >>> class Square:
-        ...     def __init__(self, side: float):
-        ...             self.__side = side
-        ...             self.__area = side**2
-        ...
-        ...     #геттер
-        ...     @property
-        ...     def side(self) -> float:
-        ...             return self.__side
-        ...
-        ...     # сеттер
-        ...     @side.setter
-        ...     def side(self, new_side: float) -> None:
-        ...             self.__side = new_side
-        ...             self.__area = new_side**2
-        ...
-        >>> sq = Square(4.44)
-        >>> sq.side -> 4.44 # геттер - получаем атрибут __side при помощи @property def side()
-        >>> sq.side = 6.02  # сеттор - устанавливаем    __side при помощи @side.setter def side()
-        >>> sq.side -> 6.02 # геттер - получаем атрибут __side при помощи @property def side()
-    -->
-    
-    ```Объявить сеттер @side.setter без геттара @property НЕЛЬЗЯ```
-    
-# 02_04 - Файл - property2.py
+## 02_04 - Файл - property2.py ##
 
     ...
     
