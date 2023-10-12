@@ -7,7 +7,7 @@
     
     ``` Инкапсуляция решает:
         1 - часть - это ограничения уровня доступа к атрибутам напрямую
-        2 - часть - это контроль контролируемое управление атрибутами
+        2 - часть - это контролируемое управление атрибутами
     ```
     
     Например у int нет внутреннего пространства имен, но есть доступ к атрибутам:
@@ -75,7 +75,7 @@
         >>> ivan.password -> 196247794774218261
     -->
     
-# 00_28 Сеттеры & Геттеры & Леттеры
+# 00_28 Сеттеры & Геттеры & Леттеры - 00_55
 
     Методы при помощи которых мы контролируемо (управляем значениями атрибутов):
     с одной стороны предоставляем значение какого либо атрибута      - Геттеры
@@ -88,6 +88,122 @@
     !Ограничение уровня доступа в Python напрямую невозможно!
     !Любой объект имет доступ к любому объекту!
     
+    Иммитация уровня доступа в Python
+    1. public    -   attr (без подчеркивания)
+    2. private   -  _attr (одно подчеркивание)
+    3. protected - __attr (два подчеркивания)
     
     
+    Работает? Да, но не совсем...
+    <!--
+        >>> class User:
+        ...     def __init__(self, login: str, email: str, password: str):
+        ...             # публичный public
+        ...             self.login = login
+        ...             # частный private
+        ...             self._email = email
+        ...             # защищенный protected
+        ...             self.__password = hash(password)
+        ...
+        >>> user = User('user', 'mail', 'pass')
+        >>> user.login  -> 'user'
+        >>> user._email -> 'mail'
+        >>> user.__password -> AttributeError: 'User' object has no attribute '__password'
+    -->
     
+    ...во внутреннем пространстве имён увидим... _User__password
+    <!-->>> user.__dict__ -> {'login': 'user', '_email': 'mail', '_User__password': 2897226804880369300} -->  
+    
+    ... _User__password - _ИмяКласса__атрибут
+    Если обратиться к нему так как он записан, то получим доступ к атрибуту
+    !Потому, что работает механизм - подмены имён - name mandling, для защищенных атрибутов!
+    <!-->>> user._User__password -> 2897226804880369300 -->
+    
+    Проверяем изменение атрибутов. Ограничить доступ не можем.
+    <!--
+        >>> user.login = 'bugaga'
+        >>> user._email = 'figtebe'
+        >>> user._User__password = 'ugadaika'
+        >>> user.__dict__ -> {'login': 'bugaga', '_email': 'figtebe', '_User__password': 'ugadaika'}
+    -->
+    
+# 00_50 - Использование меток '_' & '__'. Файл - incapsulation2.py
+
+    Для командной работы (разработки)
+    Для интегрированной среды разработки
+    Для динамического работы с пространствами имен
+    
+    
+# 00_55 - Сеттеры & Геттеры
+
+    Решение проблемы рассогласования при помощи сеттеров
+    <!--
+        >>> class Square:
+        ...     def __init__(self, side: float):
+        ...             self.side = side
+        ...             self.area = side**2
+        ...
+        ...     # классический геттер
+        ...     def get_side(self) -> float:
+        ...             return self.side
+        ...
+        ...     # классический сеттер
+        ...     def set_side(self, new_side: float) -> None:
+        ...             self.side = new_side
+        ...             self.area = new_side**2
+        ...
+        ...     # классический геттер
+        ...     def get_area(self) -> float:
+        ...             return self.area
+        ...
+        ...     # классический сеттер
+        ...     def set_area(self, new_area: float) -> None:
+        ...             self.side = new_area**0.5
+        ...             self.area = new_area
+        ...
+        >>> sq = Square(3)
+        >>> sq.side -> 3
+        >>> sq.area -> 9
+        >>> sq.side = 10
+        
+        ... Проблема рассогласования
+        >>> sq.side -> 10
+        >>> sq.area -> 9
+        
+        ... Решение проблемы рассогласования при помощи сеттера
+        >>> sq.set_side(12)
+        >>> sq.side -> 12
+        >>> sq.area -> 144
+        >>> sq.set_area(225)
+        >>> sq.area -> 225
+        >>> sq.side -> 15.0
+    -->
+    
+ # 01_12 - Динамический доступ на чтение и запись (встроенные getattr() & setattr())
+ 
+    Динамический доступ на чтение - getattr()
+    <!--
+        >>> for attr_name, attr_value in user.__dict__.items():
+        ...     if not attr_name.startswith(f'_{user.__class__.__name__}'):
+        ...             print(f'{attr_name}: {getattr(user, attr_name)!r}')
+        ...
+        login: 'bugaga'
+        _email: 'figtebe'
+    -->
+    
+    Динамический доступ на запись - setattr()
+    <!--
+        >>> for attr_name in user.__dict__:
+        ...     if not attr_name.startswith('_'):
+        ...             setattr(user, attr_name, 'новое значение')
+        ...             print(f'{attr_name}: {getattr(user, attr_name)!r}')
+        ...
+        login: 'новое значение'
+        ...
+        >>> for attr_name, attr_value in user.__dict__.items():
+        ...     if attr_name.startswith(f'_{user.__class__.__name__}'):
+        ...             setattr(user, attr_name, 'новое значение')
+        ...             print(f'{attr_name}: {getattr(user, attr_name)!r}')
+        ...
+        _User__password: 'новое значение'
+    -->
