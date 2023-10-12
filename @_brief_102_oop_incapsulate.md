@@ -84,8 +84,8 @@
     
 ## 00_32 Подход Python к инкапсуляции ##
 
->В Python инкапсуляция реализована не полностью!
-Ограничение уровня доступа в Python напрямую невозможно!
+>В Python инкапсуляция реализована не полностью!\
+Ограничение уровня доступа в Python напрямую невозможно!\
 Любой объект имет доступ к любому объекту!
     
 Иммитация уровня доступа в Python:
@@ -95,7 +95,7 @@
     
     
 Работает? Да, но не совсем...
-```puthon
+```python
     class User:
         def __init__(self, login: str, email: str, password: str):
             
@@ -107,142 +107,153 @@
             self.__password = hash(password)
     
     user = User('user', 'mail', 'pass')
-    user.login  # 'user'
-    user._email # 'mail'
+    user.login      # 'user'
+    user._email     # 'mail'
     user.__password # AttributeError: 'User' object has no attribute '__password'
 ```
     
-    ...во внутреннем пространстве имён увидим... _User__password
-    <!-->>> user.__dict__ -> {'login': 'user', '_email': 'mail', '_User__password': 2897226804880369300} -->  
+>...во внутреннем пространстве имён увидим... _User__password\
+... _User__password - _ИмяКласса__атрибут
+```python
+    user.__dict__ 
+    # {'login': 'user', '_email': 'mail', '_User__password': 2897226804880369300}
+```
+Если обратиться к нему так как он записан, то получим доступ к атрибуту\
+>Потому, что работает механизм - подмены имён - name mandling, для защищенных атрибутов!
+```python
+    user._User__password
+    # 2897226804880369300
+```
     
-    ... _User__password - _ИмяКласса__атрибут
-    Если обратиться к нему так как он записан, то получим доступ к атрибуту
-    !Потому, что работает механизм - подмены имён - name mandling, для защищенных атрибутов!
-    <!-->>> user._User__password -> 2897226804880369300 -->
+>Проверяем изменение атрибутов. Ограничить доступ не можем.
+```python
+    user.login = 'bugaga'
+    user._email = 'figtebe'
+    user._User__password = 'ugadaika'
+    user.__dict__
+    # {'login': 'bugaga', '_email': 'figtebe', '_User__password': 'ugadaika'}
+```
     
-    Проверяем изменение атрибутов. Ограничить доступ не можем.
-    <!--
-        >>> user.login = 'bugaga'
-        >>> user._email = 'figtebe'
-        >>> user._User__password = 'ugadaika'
-        >>> user.__dict__ -> {'login': 'bugaga', '_email': 'figtebe', '_User__password': 'ugadaika'}
-    -->
-    
-# 00_50 - Использование меток '_' & '__'. Файл - incapsulation2.py
+## 00_50 - Использование меток '_' & '__'. Файл - incapsulation2.py ##
 
-    Для командной работы (разработки)
-    Для интегрированной среды разработки
-    Для динамического работы с пространствами имен
+Для командной работы (разработки)\
+Для интегрированной среды разработки\
+Для динамического работы с пространствами имен
     
     
-# 00_55 - Сеттеры & Геттеры
+## 00_55 - Сеттеры & Геттеры ##
 
-    Решение проблемы рассогласования при помощи сеттеров
-    <!--
-        >>> class Square:
-        ...     def __init__(self, side: float):
-        ...             self.side = side
-        ...             self.area = side**2
-        ...
-        ...     # классический геттер
-        ...     def get_side(self) -> float:
-        ...             return self.side
-        ...
-        ...     # классический сеттер
-        ...     def set_side(self, new_side: float) -> None:
-        ...             self.side = new_side
-        ...             self.area = new_side**2
-        ...
-        ...     # классический геттер
-        ...     def get_area(self) -> float:
-        ...             return self.area
-        ...
-        ...     # классический сеттер
-        ...     def set_area(self, new_area: float) -> None:
-        ...             self.side = new_area**0.5
-        ...             self.area = new_area
-        ...
-        >>> sq = Square(3)
-        >>> sq.side -> 3
-        >>> sq.area -> 9
-        >>> sq.side = 10
-        
-        ... Проблема рассогласования
-        >>> sq.side -> 10
-        >>> sq.area -> 9
-        
-        ... Решение проблемы рассогласования при помощи сеттера
-        >>> sq.set_side(12)
-        >>> sq.side -> 12
-        >>> sq.area -> 144
-        >>> sq.set_area(225)
-        >>> sq.area -> 225
-        >>> sq.side -> 15.0
-    -->
+Решение проблемы рассогласования при помощи сеттеров
+```python
+    class Square:
+        def __init__(self, side: float):
+            self.side = side
+            self.area = side**2
     
- # 01_12 - Динамический доступ на чтение и запись (встроенные getattr() & setattr())
+        # классический геттер
+        def get_side(self) -> float:
+            return self.side
+    
+        # классический сеттер
+        def set_side(self, new_side: float) -> None:
+            self.side = new_side
+            self.area = new_side**2
+
+        # классический геттер
+        def get_area(self) -> float:
+            return self.area
+
+        # классический сеттер
+        def set_area(self, new_area: float) -> None:
+            self.side = new_area**0.5
+            self.area = new_area
+```
+>Возникает проблема рассогласования    
+```python
+    sq = Square(3)
+    sq.side # 3
+    sq.area # 9
+    sq.side = 10
+        
+    #Проблема рассогласования
+    sq.side # 10
+    sq.area # 9
+```
+        
+>Решение проблемы рассогласования при помощи сеттера
+```python
+    sq.set_side(12)
+    sq.side # 12
+    sq.area # 144
+    sq.set_area(225)
+    sq.area # 225
+    sq.side # 15.0
+```
+    
+## 01_12 - Динамический доступ на чтение и запись (встроенные getattr() & setattr()) ##
  
-    Динамический доступ на чтение - getattr()
-    <!--
-        >>> for attr_name, attr_value in user.__dict__.items():
-        ...     if not attr_name.startswith(f'_{user.__class__.__name__}'):
-        ...             print(f'{attr_name}: {getattr(user, attr_name)!r}')
-        ...
-        login: 'bugaga'
-        _email: 'figtebe'
-    -->
+Динамический доступ на чтение - getattr()
+```python
+    for attr_name, attr_value in user.__dict__.items():
+        if not attr_name.startswith(f'_{user.__class__.__name__}'):
+            print(f'{attr_name}: {getattr(user, attr_name)!r}')
+    # login: 'bugaga'
+    # _email: 'figtebe'
+```
     
-    Динамический доступ на запись - setattr()
-    <!--
-        >>> for attr_name in user.__dict__:
-        ...     if not attr_name.startswith('_'):
-        ...             setattr(user, attr_name, 'новое значение')
-        ...             print(f'{attr_name}: {getattr(user, attr_name)!r}')
-        ...
-        login: 'новое значение'
-        ...
-        >>> for attr_name, attr_value in user.__dict__.items():
-        ...     if attr_name.startswith(f'_{user.__class__.__name__}'):
-        ...             setattr(user, attr_name, 'новое значение')
-        ...             print(f'{attr_name}: {getattr(user, attr_name)!r}')
-        ...
-        _User__password: 'новое значение'
-    -->
-    
-# 01_43 - Защищенные атрибуты в классе
+Динамический доступ на запись - setattr()
+```python
+    for attr_name in user.__dict__:
+        if not attr_name.startswith('_'):
+            setattr(user, attr_name, 'новое значение')
+            print(f'{attr_name}: {getattr(user, attr_name)!r}')
+    # login: 'новое значение'
 
-    Защищенные атрибуты
-    <!--    
-        >>> class Square:
-        ...     def __init__(self, side: float):
-        ...             self.__side = side
-        ...             self.__area = side**2
-        ...     def side(self) -> float:
-        ...             return self.__side
-        ...
-        >>> sq = Square(10)
-        >>> sq.side   -> <bound method Square.side of <__main__.Square object at 0x00000238FADF4350>>
-        >>> sq.side() -> 10
-    --> тут side - объект метода
+    for attr_name, attr_value in user.__dict__.items():
+        if attr_name.startswith(f'_{user.__class__.__name__}'):
+            setattr(user, attr_name, 'новое значение')
+            print(f'{attr_name}: {getattr(user, attr_name)!r}')
+            
+    #_User__password: 'новое значение'
+```
     
-    Декорируем при помощи @property
-    <!--    
-        >>> class Square:
-        ...     def __init__(self, side: float):
-        ...             self.__side = side
-        ...             self.__area = side**2
-        ...
-        ...     # это геттер
-        ...     @property
-        ...     def side(self) -> float:
-        ...             return self.__side
-        ...
-        >>> sq = Square(10)
-        >>> sq.side -> 10
-    --> тут side - значение
+## 01_43 - Защищенные атрибуты в классе ##
+
+Защищенные атрибуты
+>тут side - объект метода
+```python    
+    class Square:
+        def __init__(self, side: float):
+            self.__side = side
+            self.__area = side**2
+        def side(self) -> float:
+            return self.__side
     
-    Декоратор @protected работает таким образом, что при обращении к декорируемому методу
-    как к атрибуту, метод вызывается и возвращает значение, которое должен вернуть вызванный метод без декоратора
+    sq = Square(10)
+    sq.side # <bound method Square.side of <__main__.Square object at 0x00000238FADF4350>>
+    sq.side() # 10
+``` 
+    
+Декорируем при помощи @property
+>тут side - значение
+```python
+    class Square:
+        def __init__(self, side: float):
+            self.__side = side
+            self.__area = side**2
+            
+    # это геттер
+        @property
+        def side(self) -> float:
+            return self.__side
+    
+    sq = Square(10)
+    sq.side # 10
+```
+    
+Декоратор @protected работает таким образом, что при обращении к декорируемому методу
+как к атрибуту, метод вызывается и возвращает значение, 
+которое должен вернуть вызванный метод без декоратора
     <!--     
         ... # Без использования декоратора
         >>> sq.side -> <bound method Square.side of <__main__.Square object at 0x00000238FADF4350>>
