@@ -329,7 +329,83 @@ user.__dict__ # {'login': 'user', '_email': 'mail@mail.ru', '_User__password': -
 user.password = 'asdf'
 user.__dict__ # {'login': 'user', '_email': 'mail@mail.ru', '_User__password': 1019968035809812329}
 ```
-    
+### Альтернативное использование геттеров и сеттеров ###
+Сеттер без геттера
+>Защищенный метод password и функция property(fset=password)
+```python
+class User:
+    def __init__(self, login: str, email: str, password: str):
+        self.login = login
+        self._email = email
+        self.__password = hash(password)
+    def password(self, new_password: str) -> None:
+        self.__password = hash(new_password)
+    password = property(fset=password)
+
+user = User('Name', 'E-mail@mail.ru', 'qwerty')
+user.__dict__ # {'login': 'Name', '_email': 'E-mail@mail.ru', '_User__password': -7091861883710770239}
+
+# геттера нет, меняем пароль 
+user.password = 'asdfg'
+user.__dict__ # {'login': 'Name', '_email': 'E-mail@mail.ru', '_User__password': -3998920631501542740}
+```
+Геттер без сеттера
+```python
+...
+@property
+def login(self) -> str:
+    return self.__login
+...
+```
+### 02_22 - Файл property3.py ###
+>Обращение к методам(вызов) как к атрибутам экземпляра
+```python
+class Person:
+    def __init__(self, last_name: str, first_name: str, patr_name: str):
+        self.last_name = last_name
+        self.first_name = first_name
+        self.patr_name = patr_name
+    @property
+    def fio(self) -> str:
+        return f'{self.last_name} {self.first_name} {self.patr_name}'
+    @property
+    def initials_first(self) -> str:
+        return f'{self.first_name[0]}. {self.patr_name[0]}. {self.last_name}'
+    @property
+    def initials_least(self) -> str:
+        return f'{self.last_name} {self.first_name[0]}. {self.patr_name[0]}.'
+```
+
+### 02_30 @cache - декоратор кеширование ###
+>При обращении к методу каждый происходит вызов, и соответсвенно вычисление.\
+Чтобы не тратить на это время можем использовать @cache из модуля functools и метод __hash__
+```puthon
+from functools import cache
+```
+```python
+class Person:
+    def __init__(self, last_name: str, first_name: str, patr_name: str):
+        self.last_name = last_name
+        self.first_name = first_name
+        self.patr_name = patr_name
+    def __hash__(self):
+        # теперь hash объекта зависит от атрибутов и изменится только при изменении атрибутф(ов)
+        return hash(f'{self.last_name}{self.first_name}{self.patr_name}')
+        
+    @property
+    def fio(self) -> str:
+        # вызов -> вычисление
+        return f'{self.last_name} {self.first_name} {self.patr_name}'
+    @property
+    @cache
+    def initials_first(self) -> str:
+        # вызов 1 раз -> вычисление 1 раз
+        return f'{self.first_name[0]}. {self.patr_name[0]}. {self.last_name}'
+
+```
+> @cache - вычисляет заново hash экземпляра если изменился какой либо атрибут
+>__hash__() - для любого объекта возвращает int, которое используется для однозначной идентификации объекта
+   
     
     
     
