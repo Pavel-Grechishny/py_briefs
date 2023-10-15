@@ -45,11 +45,30 @@ class Test_2:
 test = Test()
 test_2 = Test_2()
 
+test # -> repr tested
+test_2 # -> repr tested 2
+
 test_2.__str__() # -> 'str tested 2'
 test_2.__repr__() # -> 'repr tested 2'
 
 test.__repr__() # -> 'repr tested'
 test.__str__() # -> 'repr tested'
 ```
+Если для методов __str__ и __repr__ подразумевается одинаковое представление,
+то мы определеяем одно и именно __repr__
 
+__bytes__ - byte string
+>Строка в которой можно явно указать (помощью 16-тиричного кода) байтовыую последовательность
 
+__format__
+>Можем определить собственные спецификации для форматирования
+>Файл specials3.py
+
+### 00_52 - перегрузка операторов ###
+>Методы операция сравнения
+object.__lt__(self, other)
+object.__le__(self, other)
+object.__eq__(self, other)
+object.__ne__(self, other)
+object.__gt__(self, other)
+object.__ge__(self, other)
