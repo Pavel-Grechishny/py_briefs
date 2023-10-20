@@ -1,0 +1,30 @@
+@startuml
+
+!theme sketchy-outline
+scale 3
+
+class Product {
+    +{static}date_format: str
+    +name: str
+    +produced: date
+    +expired: date
+    __init__()
+    __repr__()
+    +is_expired(): bool
+}
+
+class Fridge {
+    #camera
+    __init__()
+    __iter__()
+    __len__()
+    __getitem__()
+    __delitem__()
+    __repr__()
+    +put()
+    +clear_expired()
+}
+
+Fridge o-left- Product
+
+@enduml
