@@ -1,6 +1,6 @@
 @startuml
 
-!theme sketchy-outline
+!theme monokai_npp from ..\.styles
 scale 3
 
 class Product {
