@@ -131,8 +131,79 @@ Human.__mro__ # -> (<class '__main__.Human'>, <class '__main__.Mammal'>, <class 
 ivan.__class__.__mro__ # -> (<class '__main__.Human'>, <class '__main__.Mammal'>, <class '__main__.Reptile'>, <class '__main__.Fish'>, <class '__main__.Proteus'>, <class 'object'>)
 ```
 ### 01_03 - Person. Файл - inheritance4.py ###
+```python
+class Employee(Person):
+    cls_attr = 'value'
+    def __init__(self,
+            last_name: str,
+            first_name: str,
+            patr_name: str,
+            position: str,
+            income: int
+    ):
+        super().__init__(last_name, first_name, patr_name)
+        self.position = position
+        self.income = income
 
-...
+anna = Person('Демидова', 'Анна', 'Олеговна')
+anna.__dict__
+# -> {'last_name': 'Демидова', 'first_name': 'Анна', 'patr_name': 'Олеговна'}
+
+olga = Employee('Балашова', 'Ольга', 'Николаевна', 'Бухгалтер', 50000)
+olga.__dict__
+# -> {'last_name': 'Балашова', 'first_name': 'Ольга', 'patr_name': 'Николаевна', 'position': 'Бухгалтер', 'income': 50000}
+
+anna.cls_attr # -> 'value'
+olga.cls_attr # -> 'value'
+```
+
+### 01_54 - Плохое наследование. Файл inheritance5.py ###
+```python
+class Vehicle:
+    wheels = 4
+    def __init__(self, average_speed: int):
+        self.speed = average_speed
+    @staticmethod
+    def move() -> str:
+        return f'{self.__class__.__name__} moves on the ground with average speed of {self.speed} km/h'
+
+class Bicycle(Vehicle):
+    wheels = 2
+
+class Car(Vehicle):
+    pass
+
+class Train(Vehicle):
+    wheels = 16
+    @staticmethod
+    def move() -> str:
+        return super().move().replace('on the ground', 'along railroads')
+
+class Aircraft(Vehicle):
+    wheels = 6
+    def __init__(self, average_ground_speed: int, average_air_speed: int):
+        self.ground_speed = average_ground_speed
+        self.air_speed = average_air_speed
+    @staticmethod
+    def move() -> str:
+        return f' On the ground {self.__class__.__name__} moves with average speed of {self.ground_speed} km/h while in air it flies with average speed of {self.air_speed} km/h'
+
+sputnik = Bicycle(16)
+volga = Car(60)
+sapsan = Train(110)
+ssj_100 = Aircraft(50, 500)
+
+def sort_by_speed(*vehicles: Vehicle) -> list[Vehicle]:
+    return sorted(vehicles, key=lambda v: v.speed)
+
+sort_by_speed(sputnik, volga, sapsan, ssj_100)
+# -> AttributeError: 'Aircraft' object has no attribute 'speed'
+
+sort_by_speed(sputnik, volga, sapsan) 
+# -> [<__main__.Bicycle object at 0x0000027C45DC4210>, <__main__.Car object at 0x0000027C45DC4610>, <__main__.Train object at 0x0000027C45DC4690>]
+```
+
+### 02_24
 
 
  
