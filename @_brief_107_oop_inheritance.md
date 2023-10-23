@@ -203,7 +203,9 @@ sort_by_speed(sputnik, volga, sapsan)
 # -> [<__main__.Bicycle object at 0x0000027C45DC4210>, <__main__.Car object at 0x0000027C45DC4610>, <__main__.Train object at 0x0000027C45DC4690>]
 ```
 
-### 02_24
+### 02_24. Файл - _VirtualInstruments.py ###
+
+
 
 
  
