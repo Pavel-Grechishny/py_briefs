@@ -84,9 +84,8 @@ for obj in buffer.split():
 
 natural_numbers
 # -> [12, 12, 1, 1, 15]
-```
 **Текст сообщения ошибки**
-```puthon
+```python
 class NonNaturalNumberError(Exception):
     def __init__(self, class_):
         super().__init__(f'{class_.__name__!r} text Error')
