@@ -1,0 +1,4 @@
+test_meow: id(new_cat) = 1913659956368
+test_hungry: id(new_cat) = 1913659771216
+test_reproduce_count: id(new_cat) = 1913659773072
+test_reproduce: id(new_cat) = 1913659782032
