@@ -1,6 +1,10 @@
 """
 Точка входа.
 """
+print('__main__ > start')
+
+print(app.model)
+print(app.model.utils)
 
 
 
