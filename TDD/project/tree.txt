@@ -1,0 +1,60 @@
+12:31:12 > tree /f
+Структура папок тома Локальный диск
+Серийный номер тома: 48C3-F4A4
+D:.
+│   .gitignore
+│   pyproject.toml
+│
+├───doc
+│   │   classes.puml
+│   │
+│   └───.raster
+│           classes.png
+│
+├───src
+│   └───calculator
+│       │   __init__.py
+│       │	print('инициализация корневого пакета - формирование пространства имён')
+│       │	# относительные импорты из текущего пакета
+│       │	from . import app
+│       │	from . import io
+│       │	from . import utils
+│       │   __main__.py
+│       │	print('точка входа', end='\n\n')
+│       │	print(__package__, end='\n\n')
+│       │	# имя корневого пакета доступно, если корневой пакет импортирован
+│       │	from calculator import app
+│       │	# относительный импорт из текущего пакета
+│       │	from . import io
+│       │	print(app, end='\n\n')
+│       │	print(app.model, end='\n\n')
+│       │	print(app.model.utils, end='\n\n')
+│       │
+│       ├───app
+│       │       app.py
+│       │	    # абсолютный импорт из текущего пакета
+│       │	    from calculator.app import app
+│       │       model.py
+│       │	    from calculator import utils
+│       │       __init__.py
+│       │	    from . import model
+│       │	    from . import app
+│       │
+│       ├───io
+│       │       files.py
+│       │       __init__.py
+│       │
+│       └───utils
+│               data.py
+│       	    __all__ = ['var1',]
+│       	    var1 = 132
+│       	    var2 = 'option1'
+│               __init__.py
+│       	    # относительный импорт модуля из текущего пакета
+│       	    # from . import data
+│       	    # импорт идентификаторов, перечисленных в __all__ модуля data
+│       	    from .data import * 
+│
+└───test
+    └───app
+            test_model.py

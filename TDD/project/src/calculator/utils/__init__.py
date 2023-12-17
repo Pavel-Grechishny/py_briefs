@@ -3,7 +3,7 @@
 
 # Вариант 2 с инструкцией __all__ в vars.py
 # Точка означает текущий пакет
-# from .vars import *
+from .vars import *
 
 # D:\temp\briefs\TDD\project\src
 # 19:16:37 > python -i __main__.py
