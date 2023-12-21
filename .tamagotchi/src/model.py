@@ -1,5 +1,8 @@
 """Model (MVC)."""
 
+# ┌──────┐
+# │ 2.25 │
+# └──────┘
 
 from typing import Type, Iterable
 from pathlib import Path
@@ -24,18 +27,20 @@ class DictOfRanges(dict):
 class Parameter:
     """Описывает параметр."""
     
+    name = None
+    
     def __init__(
             self,
-            name: str, 
             min: float,
             max: float,
             value: float,
         ):
-        self.name = name
         self.min = min
         self.max = max
         self.__value = value
 
+    def update(self) -> None:
+        """Обновление параметров."""
 
 class MaturePhase:
     """Возрастной период питомца (фаза зрелости).
@@ -96,21 +101,27 @@ class Creature:
 # └─────────────────────────────────────────────────────┘
 class Health(Parameter):
     """Здоровье - параметр Tamagotchi."""
+    name = 'Health'
 
 class Satiety(Parameter):
     """Сытость - параметр Tamagotchi."""
+    name = 'Satiety'
 
 class Fatigue(Parameter):
     """Усталость - параметр Tamagotchi."""
+    name = 'Fatigue'
 
 class Hygiene(Parameter):
     """Чистота - параметр Tamagotchi."""
+    name = 'Hygiene'
 
 class Mood(Parameter):
     """Настроение - параметр Tamagotchi."""
+    name = 'Mood'
 
 class Disease(Parameter):
     """Болезнь - параметр Tamagotchi."""
+    name = 'Disease'
 
 
 # ┌─────────────────────────────────────────────────────┐       
@@ -129,4 +140,32 @@ class Disease(Parameter):
 # alt191 ┐
 # alt192 └
 # alt218 ┌
-# alt217 ┘     
+# alt217 ┘ 
+
+
+# alt3 ♥
+# alt4 ♦
+# alt5 ♣
+# alt6 ♠
+# alt194 ┬
+# alt195 ├
+# alt197 ┼
+# alt180 ┤
+# alt193 ┴
+
+# alt30 ▲
+# alt31 ▼
+# alt16 ►
+# alt17 ◄
+
+# alt176 ░
+# alt177 ▒
+# alt178 ▓
+
+# alt219 █
+# alt220 ▄
+# alt221 ▌
+# alt222 ▐
+# alt223 ▀
+    
+
