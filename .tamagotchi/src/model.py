@@ -4,6 +4,7 @@
 # │ 2.25 │
 # └──────┘
 
+from abc import abstractmethod
 from typing import Type, Iterable
 from pathlib import Path
 
@@ -39,13 +40,16 @@ class Parameter:
         self.max = max
         self.__value = value
 
+    @abstractmethod
     def update(self) -> None:
-        """Обновление параметров."""
+        """Обновление параметра (связь параметров)."""
+        pass
 
 class MaturePhase:
     """Возрастной период питомца (фаза зрелости).
     
-    :param days: количество возрастных дней в иговом периоде
+    :param days: количество возрастных дней в игровом периоде
+    :param coeffs: матрица коэффициентов влияния параметров друг на друга
     """
 
     def __init__(
@@ -53,6 +57,7 @@ class MaturePhase:
             days: int, 
             params: dict[Type, Parameter], 
             coeffs: dict[Type, dict[Type, float]]
+            # coefs[Satiety][Stamina]
         ):
         self.days = days
         self.params = params
@@ -86,7 +91,7 @@ class Creature:
         self.params: dict[Type, Parameter]
 
     def update(self) -> None:
-        """Обновление параметров состояния экземпляра."""
+        """Обновление всех параметров Tamagotchi."""
 
 
 # ┌─────────────────────────────────────────────────────┐
@@ -97,31 +102,57 @@ class Creature:
 # │ Hygiene (гигиена, purity)                           │
 # │ Mood (настроение)                                   │
 # │ Disease (болезнь)                                   │
+# │ Stamina (выносливость)                              │
 # │ ...                                                 │
 # └─────────────────────────────────────────────────────┘
 class Health(Parameter):
     """Здоровье - параметр Tamagotchi."""
     name = 'Health'
 
+    def update(self) -> None:
+        """Обновление параметра."""
+
 class Satiety(Parameter):
     """Сытость - параметр Tamagotchi."""
     name = 'Satiety'
+
+    def update(self) -> None:
+        """Обновление параметра."""
 
 class Fatigue(Parameter):
     """Усталость - параметр Tamagotchi."""
     name = 'Fatigue'
 
+    def update(self) -> None:
+        """Обновление параметра."""
+
 class Hygiene(Parameter):
     """Чистота - параметр Tamagotchi."""
     name = 'Hygiene'
+
+    def update(self) -> None:
+        """Обновление параметра."""
 
 class Mood(Parameter):
     """Настроение - параметр Tamagotchi."""
     name = 'Mood'
 
+    def update(self) -> None:
+        """Обновление параметра."""
+
 class Disease(Parameter):
     """Болезнь - параметр Tamagotchi."""
     name = 'Disease'
+
+    def update(self) -> None:
+        """Обновление параметра."""
+
+class Stamina(Parameter):
+    """Выносливость - параметр Tamagotchi."""
+    name = 'Stamina'
+
+    def update(self) -> None:
+        """Обновление параметра."""
 
 
 # ┌─────────────────────────────────────────────────────┐       
