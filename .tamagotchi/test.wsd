@@ -1,7 +1,0 @@
-@startuml namespace
-
-class Test{
-    {static}
-}
-
-@enduml
